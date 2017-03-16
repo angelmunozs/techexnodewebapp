@@ -1,0 +1,29 @@
+body {
+	font-size: 17px;
+	font-family: 'Marvel', sans-serif;
+	font-weight: 400;
+}
+/* Navbar */
+.navbar-header {
+	width: 100%;
+}
+.navbar-brand img {
+	max-height: 20px;
+}
+.menu-link .fa-circle {
+	color: #64FE2E;
+}
+/* Content */
+.content {
+	padding: 20px;
+	min-height: 700px;
+}
+/* Footer */
+footer {
+	min-height: 160px;
+	background: #E7E7E7;
+	padding: 20px;
+}
+footer .footer-col-2 {
+	text-align: right;
+}

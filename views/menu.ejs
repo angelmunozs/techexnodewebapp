@@ -1,0 +1,41 @@
+<!-- Nav -->
+<div id="nav">
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="navbar-header">
+                <a href="/" class="navbar-brand">
+                    <img src="/img/logo.png">
+                </a>
+                <ul class="nav navbar-nav">
+                    <li id="section-upload-li">
+                        <a class="menu-link" id="section-upload-link" href="/upload">Upload a song</a>
+                    </li>
+                    <li id="section-events-li">
+                        <a class="menu-link" id="section-events-link" href="/events">Received songs</a>
+                    </li>
+                </ul>
+                <ul class="nav navbar-nav pull-right">
+                    <% if(user) { %>
+                            <li id="section-logout-li">
+                                <a class="menu-link" id="logout" href="#">
+                                    <i class="fa fa-circle"></i>
+                                    Logout
+                                </a>
+                            </li>
+                    <% } %>
+                    <li id="facebook-li">
+                        <a id="facebook-link" href="https://www.facebook.com/" target="_blank" class="social-network"><i class="fa fa-facebook"></i></a>
+                    </li>
+                    <li id="twitter-li">
+                        <a id="twitter-link" href="https://twitter.com/" target="_blank" class="social-network"><i class="fa fa-twitter"></i></a>
+                    </li>
+                    <li id="youtube-li">
+                        <a id="youtube-link" href="https://www.youtube.com/" target="_blank" class="social-network"><i class="fa fa-youtube"></i></a>
+                    </li>
+                </ul>
+            </div><!-- /.navbar-collapse -->
+        </div><!-- /.container-fluid -->
+    </nav>
+</div>
