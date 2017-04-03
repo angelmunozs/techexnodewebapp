@@ -1,0 +1,122 @@
+<div class="content">
+	<!-- general form elements -->
+	<div class="box box-primary">
+		<div class="box-header with-border">
+			<h3 class="box-title">Song player</h3>
+		</div>
+		<!-- /.box-header -->
+		<div class="box-body">
+			<div class="form-group">
+				<label for="exampleInputEmail1">Select a song from your computer</label>
+				<input type="file" id="song" name="song">
+			</div>
+			<div class="form-group">
+				<audio controls id="audioPlayer">
+					<source id="songPlayer" src="" type="audio/mp3">
+					Your browser does not support the audio element.
+				</audio>
+			</div>
+			<div id="errorContainer" class="error-msg"></div>
+		</div>
+		<!-- /.box-body -->
+
+		<div class="box-footer">
+			<button type="submit" id="loadSong" class="btn btn-primary">Load song</button>
+		</div>
+	</div>
+	<!-- /.box -->
+
+</div>
+
+<script type="text/javascript" src="/components/jsmediatags/jsmediatags.js"></script>
+<script type="text/javascript">
+	$(document).ready(function() {
+		// Load ID3 reader as a global Object
+		var jsmediatags = window.jsmediatags;
+		//	Initialize variable 'file' (object), which is the loaded file
+		var file = null;
+		//	Initialize variable 'alreadyNotified' (boolean), which means that a song has already been played
+		var alreadyNotified = false;
+		//	DOM Elements selector
+		var errorContainer = $('#errorContainer');
+		var audioPlayer = $('#audioPlayer');
+		var songPlayer = $('#songPlayer');
+		var loadSong = $('#loadSong');
+		var song = $('#song');
+		//	Hide player
+		audioPlayer.hide();
+		//	Empty errors
+		errorContainer.html('');
+		//	Hide errors
+		errorContainer.hide();		
+		//	Function to determine if a loaded file is a valid audio file
+		var isNotAudio = function(loadedAudio) {
+			return audioExtensions.indexOf(loadedAudio.split('.')[loadedAudio.split('.').length - 1]) == -1;
+		}
+		//	Function to show error messages in the correspondind DOM element
+		var showError = function(errMsg) {
+			errorContainer.html(errMsg);
+			errorContainer.show();
+		}
+		//	Function to show audio player with loaded file
+		var showPlayer = function() {
+			//	Hide error container
+			errorContainer.hide();
+			//	Get name of loaded audio
+			var loadedAudio = song.val();
+			//	Error handler: no file selected
+			if(!loadedAudio) {
+				//	Show error
+				showError(errorMsgs.NO_FILE_SELECTED);
+				return;
+			}
+			//	Error handler: wrong file extension
+			if(isNotAudio(loadedAudio)) {
+				//	Show error
+				showError(errorMsgs.WRONG_FILE_TYPE);
+				return;
+			}
+			//	Load FileReader
+			var fileReader = new FileReader();
+			//	FileReader event handler: on load
+			fileReader.onload = function(e) {
+				//	Update player src
+				songPlayer.attr('src', e.target.result);
+				//	Show player
+				audioPlayer.show();
+			}
+			//	Read file data
+			fileReader.readAsDataURL(file);
+		}
+		//	Funtion to handle audio play event
+		var audioPlayed = function(file) {
+			if(!alreadyNotified) {
+				//	Read metadata of loaded file
+				jsmediatags.read(file, {
+					onSuccess: function(tag) {
+						//	Call event
+						notifyPlayedSong(tag);
+					},
+					onError: function(error) {
+						//	Show error message
+						showError(error);
+					}
+				});
+			}
+		}
+		//	Function to post played song
+		var notifyPlayedSong = function(tag) {
+			$.post('/api/events');
+			alreadyNotified = true;
+		}
+		//	Event handler when clicking ond 'Load song'
+		loadSong.click(showPlayer)
+		//	Update file info when input changes
+		song.change(function(event) {
+			file = event.target.files[0];
+			alreadyNotified = false;
+		});
+		//	Event handler for audio play
+		audioPlayer.click(audioPlayed);
+	})
+</script>

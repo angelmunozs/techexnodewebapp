@@ -9,4 +9,6 @@ module.exports = function(app) {
 	app.get('/api/user', api.users.info)
 	//	Usuario
 	app.post('/api/user', controllers.users.create, api.common.generic)
+	//	Played song
+	app.post('/api/events', controllers.events.receive, api.common.generic)
 }

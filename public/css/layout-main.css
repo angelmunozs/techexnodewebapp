@@ -27,3 +27,7 @@ footer {
 footer .footer-col-2 {
 	text-align: right;
 }
+.error-msg {
+	color: red;
+	font-style: italic;
+}

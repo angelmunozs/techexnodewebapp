@@ -8,7 +8,7 @@ module.exports = function(app) {
 	//	Login
 	app.get('/login', controllers.render('login'))
 	//	Upload a song
-	app.get('/upload', controllers.auth.require.user, controllers.render('sections/upload'))
+	app.get('/play', controllers.auth.require.user, controllers.render('sections/playsong'))
 	//	See events
 	app.get('/events', controllers.auth.require.user, controllers.render('sections/events'))
 }
